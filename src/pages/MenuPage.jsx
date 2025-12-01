@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion';
-import Menu from '../components/Menu';
+// src/pages/MenuPage.jsx
+import { motion } from "framer-motion";
+import Menu from "../components/Menu";
+import AddressPicker from "../components/AddressPicker"; // <--- IMPORTANTE
 
 export default function MenuPage() {
     return (
@@ -37,8 +39,10 @@ export default function MenuPage() {
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="text-lg md:text-xl text-gray-600 mt-6 font-medium"
                 >
-                    <span className="inline-block">✨</span> Selecciona tus favoritos y{' '}
-                    <span className="text-sakana-red font-bold">disfruta la experiencia</span>
+                    <span className="inline-block">✨</span> Selecciona tus favoritos y{" "}
+                    <span className="text-sakana-red font-bold">
+                        disfruta la experiencia
+                    </span>
                     <span className="inline-block ml-1">🍣</span>
                 </motion.p>
 
@@ -55,7 +59,25 @@ export default function MenuPage() {
                 </motion.div>
             </div>
 
-            <Menu />
+            {/* SECCIÓN: SELECCIONAR DIRECCIÓN + MAPA */}
+            <section className="relative z-10 container mx-auto px-6 pb-10">
+                <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+                    <h2 className="text-2xl font-serif font-bold mb-4 text-sakana-dark">
+                        Dirección de entrega
+                    </h2>
+                    <p className="text-sm text-gray-500 mb-4">
+                        Busca tu dirección o mueve el pin en el mapa para fijar el punto
+                        exacto de entrega.
+                    </p>
+                    <AddressPicker />
+                </div>
+            </section>
+
+            {/* CATÁLOGO */}
+            <div className="relative z-10">
+                <Menu />
+            </div>
         </div>
     );
 }
+

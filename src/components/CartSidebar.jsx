@@ -1,62 +1,117 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+// src/components/CartSidebar.jsx
+// Carrito con bloqueo por horario + zona de reparto + costo delivery
+// e inclusión de dirección (calle + ciudad) en el mensaje de WhatsApp.
+
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import { useCart } from "../context/CartContext";
+import { useStoreStatus, STORE_SCHEDULE } from "../hooks/useStoreStatus";
+import {
+    useDeliveryCalculator,
+    STORE_LOCATION,
+    ZONAS_DELIVERY,
+} from "../hooks/useDeliveryCalculator";
+import { useDelivery } from "../context/DeliveryContext";
 
 export default function CartSidebar() {
-    const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateQuantity, cartTotal } = useCart();
+    const {
+        cart,
+        isCartOpen,
+        setIsCartOpen,
+        removeFromCart,
+        updateQuantity,
+        cartTotal,
+    } = useCart();
+
+    // Estado de tienda (abierto/cerrado)
+    const { isOpen } = useStoreStatus(STORE_SCHEDULE);
+
+    // Dirección seleccionada
+    const { address } = useDelivery();
+
+    // Cálculo de distancia y costo
+    const { distanceKm, costoDelivery, isInZone } = useDeliveryCalculator(
+        address && address.lat && address.lng
+            ? { lat: address.lat, lng: address.lng }
+            : null,
+        { storeLocation: STORE_LOCATION, zonas: ZONAS_DELIVERY }
+    );
+
+    const totalConDelivery = cartTotal + (costoDelivery || 0);
 
     const handleCheckout = () => {
-        // Número chileno: código país 56 + número sin 0 inicial
-        const numeroCelular = "931342699"; // Tu número sin el 0 inicial
-        const phone = `56${numeroCelular}`; // Resultado: 56931342699
+        // Bloqueos de seguridad
+        if (!isOpen || !isInZone || cart.length === 0 || !address?.text) return;
+
+        // Número de WhatsApp de la tienda (sin +56)
+        const numeroCelular = "931342699";
+        const phone = `56${numeroCelular}`; // Chile: 56931342699
 
         let message = "Hola SakanaDelight! 🍣 Quiero pedir lo siguiente:\n\n";
-        cart.forEach(item => {
-            message += `▪️ ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toLocaleString('es-CL')}\n`;
+
+        cart.forEach((item) => {
+            message += `▪️ ${item.quantity}x ${item.name} - $${(
+                item.price * item.quantity
+            ).toLocaleString("es-CL")}\n`;
         });
-        message += `\n💰 *Total: $${cartTotal.toLocaleString('es-CL')}*`;
 
-        const encodedMessage = encodeURIComponent(message);
+        message += `\n💰 Subtotal: $${cartTotal.toLocaleString("es-CL")}`;
 
-        // Usar wa.me que funciona en todos los dispositivos
-        const url = `https://wa.me/${phone}?text=${encodedMessage}`;
+        if (costoDelivery != null) {
+            message += `\n🚚 Delivery estimado: $${costoDelivery.toLocaleString(
+                "es-CL"
+            )}`;
+            message += `\n🔢 Total aprox: $${totalConDelivery.toLocaleString(
+                "es-CL"
+            )}`;
+        }
 
-        window.open(url, '_blank');
+        if (address?.text) {
+            // Aquí va calle + ciudad (formatted_address de Google)
+            message += `\n📍 Dirección: ${address.text}`;
+        }
+
+        const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
+            message
+        )}`;
+        window.open(url, "_blank");
     };
 
     return (
         <AnimatePresence>
             {isCartOpen && (
                 <>
-                    {/* Overlay Oscuro (z-index alto para estar sobre todo) */}
+                    {/* Overlay */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setIsCartOpen(false)}
-                        className="fixed inset-0 bg-black/60 z-[200] backdrop-blur-sm"
+                        className="fixed inset-0 bg-black/60 z-[90] backdrop-blur-sm"
                     />
 
-                    {/* Panel Lateral (z-index más alto que el overlay) */}
+                    {/* Panel lateral */}
                     <motion.div
-                        initial={{ x: '100%' }}
+                        initial={{ x: "100%" }}
                         animate={{ x: 0 }}
-                        exit={{ x: '100%' }}
-                        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        // w-full en móvil para ocupar toda la pantalla, ancho fijo en desktop
-                        className="fixed right-0 top-0 h-full w-full md:w-[450px] bg-white z-[210] shadow-2xl flex flex-col"
+                        exit={{ x: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed right-0 top-0 h-full w-full md:w-[450px] bg-white z-[100] shadow-2xl flex flex-col"
                     >
                         {/* Header */}
                         <div className="p-6 border-b flex justify-between items-center bg-sakana-dark text-white">
                             <h2 className="text-xl font-serif font-bold flex items-center gap-2">
                                 <ShoppingBag size={20} /> Tu Pedido
                             </h2>
-                            <button onClick={() => setIsCartOpen(false)} className="p-2 hover:text-sakana-red transition bg-white/10 rounded-full">
+                            <button
+                                onClick={() => setIsCartOpen(false)}
+                                className="p-2 hover:text-sakana-red transition bg-white/10 rounded-full"
+                            >
                                 <X size={24} />
                             </button>
                         </div>
 
-                        {/* Lista de Productos */}
+                        {/* Lista de productos */}
                         <div className="flex-1 overflow-y-auto p-6 space-y-6">
                             {cart.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-gray-400">
@@ -72,16 +127,26 @@ export default function CartSidebar() {
                                     </button>
                                 </div>
                             ) : (
-                                cart.map(item => (
-                                    <div key={item.id} className="flex gap-4 items-center bg-white p-2 rounded-xl">
+                                cart.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="flex gap-4 items-center bg-white p-2 rounded-xl"
+                                    >
                                         <img
-                                            src={item.img || 'https://placehold.co/100x100?text=Sushi'}
+                                            src={
+                                                item.img ||
+                                                "https://placehold.co/100x100/F4E9D8/1A1A1A?text=Sushi"
+                                            }
                                             alt={item.name}
                                             className="w-20 h-20 object-cover rounded-lg shadow-sm bg-gray-100"
                                         />
-                                        <div className="flex-1 min-w-0"> {/* min-w-0 evita desbordes de texto */}
-                                            <h4 className="font-bold text-sakana-dark text-sm truncate">{item.name}</h4>
-                                            <p className="text-sakana-red font-bold text-sm">${item.price.toLocaleString('es-CL')}</p>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-bold text-sakana-dark text-sm truncate">
+                                                {item.name}
+                                            </h4>
+                                            <p className="text-sakana-red font-bold text-sm">
+                                                ${item.price.toLocaleString("es-CL")}
+                                            </p>
 
                                             <div className="flex items-center gap-3 mt-2">
                                                 <button
@@ -90,7 +155,9 @@ export default function CartSidebar() {
                                                 >
                                                     <Minus size={14} />
                                                 </button>
-                                                <span className="text-sm font-bold w-6 text-center">{item.quantity}</span>
+                                                <span className="text-sm font-bold w-6 text-center">
+                                                    {item.quantity}
+                                                </span>
                                                 <button
                                                     onClick={() => updateQuantity(item.id, 1)}
                                                     className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-sakana-red hover:text-white hover:border-transparent transition"
@@ -110,28 +177,86 @@ export default function CartSidebar() {
                             )}
                         </div>
 
-                        {/* Footer Total y Checkout */}
+                        {/* Footer: totales, delivery y botón */}
                         {cart.length > 0 && (
-                            <div className="p-6 border-t bg-gray-50 pb-safe"> {/* pb-safe para iOS */}
-                                <div className="flex justify-between items-center mb-4">
-                                    <span className="text-gray-500 font-medium">Total Estimado</span>
-                                    <span className="text-3xl font-bold text-sakana-dark font-serif">
-                                        ${cartTotal.toLocaleString('es-CL')}
+                            <div className="p-6 border-t bg-gray-50 pb-safe">
+                                {/* Subtotal productos */}
+                                <div className="flex justify-between items-center mb-2 text-sm">
+                                    <span className="text-gray-500">Subtotal productos</span>
+                                    <span className="text-2xl font-bold text-sakana-dark font-serif">
+                                        ${cartTotal.toLocaleString("es-CL")}
                                     </span>
                                 </div>
+
+                                {/* Distancia */}
+                                <div className="flex justify-between items-center mb-2 text-sm">
+                                    <span className="text-gray-500">Distancia estimada</span>
+                                    <span className="font-medium">
+                                        {distanceKm
+                                            ? `${distanceKm.toFixed(2)} km`
+                                            : "Selecciona dirección"}
+                                    </span>
+                                </div>
+
+                                {/* Costo delivery */}
+                                <div className="flex justify-between items-center mb-3 text-sm">
+                                    <span className="text-gray-500">Delivery</span>
+                                    <span className="font-bold">
+                                        {costoDelivery != null
+                                            ? `$${costoDelivery.toLocaleString("es-CL")}`
+                                            : "--"}
+                                    </span>
+                                </div>
+
+                                {/* Total con delivery si existe */}
+                                {costoDelivery != null && (
+                                    <div className="flex justify-between items-center mb-3 text-sm">
+                                        <span className="text-gray-500">Total aprox.</span>
+                                        <span className="font-bold text-sakana-dark">
+                                            ${totalConDelivery.toLocaleString("es-CL")}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {/* Mensajes de bloqueo */}
+                                {!address.lat && (
+                                    <p className="text-xs text-amber-600 mb-1">
+                                        Selecciona tu dirección para calcular el reparto.
+                                    </p>
+                                )}
+
+                                {!isInZone && address.lat && (
+                                    <p className="text-xs text-red-500 mb-1">
+                                        Lo sentimos, aún no llegamos a esa zona 🛑
+                                    </p>
+                                )}
+
+                                {!isOpen && (
+                                    <p className="text-xs text-red-500 mb-1">
+                                        El local está cerrado. Los pedidos se habilitan en horario
+                                        de atención.
+                                    </p>
+                                )}
+
                                 <button
                                     onClick={handleCheckout}
-                                    className="w-full md:w-auto flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg transition-all active:scale-95"
+                                    disabled={
+                                        !isOpen || !isInZone || !address?.text || cart.length === 0
+                                    }
+                                    className={`w-full font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all shadow-lg
+                    ${!isOpen || !isInZone || !address?.text || cart.length === 0
+                                            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                                            : "bg-green-600 hover:bg-green-700 text-white"
+                                        }`}
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
-                                        fill="currentColor" className="w-6 h-6">
-                                        <path
-                                            d="M16 .6C7.6.6 1 7.4 1 15.8c0 2.7.8 5.2 2.1 7.4L1 31l8-2.1c2 1.1 4.4 1.7 7 1.7 8.4 0 15-6.8 15-15.2C31 7.4 24.4.6 16 .6zm0 27.2c-2.3 0-4.4-.6-6.2-1.7l-.4-.2-4.8 1.3L6 22.9l-.3-.5c-1.2-1.8-1.9-3.9-1.9-6.1 0-6.4 5.1-11.6 11.2-11.6s11.2 5.2 11.2 11.6-5.1 11.6-11.2 11.6zm6.2-8.7c-.3-.2-1.7-.9-1.9-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1-.3.2-.6.1-1.2-.4-2.2-1.4c-.8-.7-1.3-1.6-1.4-1.9s0-.4.1-.5l.5-.6c.2-.2.3-.4.4-.6.1-.2 0-.4 0-.6s-.7-1.7-1-2.3c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.1-1.2 2.7 1.2 3.1 1.4 3.3c.2.2 2.3 3.6 5.9 5 2.9 1.1 3.5 1 4.1.9.6-.1 2-.8 2.3-1.6s.3-1.4.2-1.6c-.1-.3-.3-.4-.6-.6z" />
-                                    </svg>
-
-                                    Realizar Pedido por WhatsApp
+                                    {!address?.text
+                                        ? "Selecciona tu dirección"
+                                        : !isInZone
+                                            ? "Fuera de zona de reparto"
+                                            : !isOpen
+                                                ? "Local cerrado"
+                                                : "Finalizar pedido por WhatsApp"}
                                 </button>
-
                             </div>
                         )}
                     </motion.div>
