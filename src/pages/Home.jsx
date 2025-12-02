@@ -6,7 +6,6 @@ import { ArrowRight, Star, Clock, Flame, CheckCircle } from 'lucide-react';
 // Componentes Propios
 import Hero from '../components/Hero';
 import Marquee from '../components/Marquee'; // Tu cinta de texto roja
-import OrderTracker from '../components/OrderTracker';
 import { useCart } from '../context/CartContext';
 
 // 🔥 NUEVO: promos del día
@@ -293,19 +292,163 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* 6. CTA FINAL + TRACKER DEMO */}
-            <section className="bg-sakana-dark text-white py-20 px-6 relative overflow-hidden">
-                {/* Decoración */}
+            {/* 6. CÓMO FUNCIONA - PROCESO DE PEDIDO */}
+            <section className="bg-gradient-to-br from-sakana-dark via-gray-900 to-sakana-dark text-white py-24 px-6 relative overflow-hidden">
+                {/* Decoración de fondo */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-sakana-red/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-96 h-96 bg-sakana-gold/5 rounded-full blur-3xl"></div>
 
-                <div className="container mx-auto text-center relative z-10">
-                    <h2 className="text-3xl font-serif mb-8">¿Hambre? Tu pedido llega volando</h2>
-                    <div className="bg-white/5 backdrop-blur-md p-8 rounded-3xl max-w-3xl mx-auto border border-white/10">
-                        <OrderTracker currentStep={3} />
+                {/* Patrón de fondo */}
+                <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
+
+                <div className="container mx-auto relative z-10">
+                    {/* Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <span className="text-sakana-gold font-serif italic text-xl mb-3 block">
+                            ~ Proceso Simple ~
+                        </span>
+                        <h2 className="text-4xl md:text-6xl font-black mb-4">
+                            ¿Cómo <span className="text-sakana-red">Funciona</span>?
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Ordenar tu sushi favorito nunca fue tan fácil. Solo 4 pasos te separan de una experiencia deliciosa.
+                        </p>
+                    </motion.div>
+
+                    {/* Grid de pasos */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                        {/* Paso 1 */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                            className="relative group"
+                        >
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                {/* Número */}
+                                <div className="absolute -top-4 -left-4 w-12 h-12 bg-sakana-red rounded-full flex items-center justify-center font-black text-2xl shadow-lg border-4 border-sakana-dark">
+                                    1
+                                </div>
+
+                                {/* Icono */}
+                                <div className="w-16 h-16 bg-sakana-red/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                                    <span className="text-4xl">🍱</span>
+                                </div>
+
+                                {/* Contenido */}
+                                <h3 className="text-xl font-bold mb-3 text-center">Explora el Menú</h3>
+                                <p className="text-gray-400 text-sm text-center leading-relaxed">
+                                    Navega por nuestros deliciosos rolls, nigiris y promociones especiales.
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        {/* Paso 2 */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                            className="relative group"
+                        >
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                {/* Número */}
+                                <div className="absolute -top-4 -left-4 w-12 h-12 bg-sakana-red rounded-full flex items-center justify-center font-black text-2xl shadow-lg border-4 border-sakana-dark">
+                                    2
+                                </div>
+
+                                {/* Icono */}
+                                <div className="w-16 h-16 bg-sakana-red/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                                    <span className="text-4xl">🛒</span>
+                                </div>
+
+                                {/* Contenido */}
+                                <h3 className="text-xl font-bold mb-3 text-center">Agrega al Carrito</h3>
+                                <p className="text-gray-400 text-sm text-center leading-relaxed">
+                                    Selecciona tus favoritos y agrégalos a tu carrito con un solo clic.
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        {/* Paso 3 */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3 }}
+                            className="relative group"
+                        >
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                {/* Número */}
+                                <div className="absolute -top-4 -left-4 w-12 h-12 bg-sakana-red rounded-full flex items-center justify-center font-black text-2xl shadow-lg border-4 border-sakana-dark">
+                                    3
+                                </div>
+
+                                {/* Icono */}
+                                <div className="w-16 h-16 bg-sakana-red/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                                    <span className="text-4xl">💬</span>
+                                </div>
+
+                                {/* Contenido */}
+                                <h3 className="text-xl font-bold mb-3 text-center">Confirma por WhatsApp</h3>
+                                <p className="text-gray-400 text-sm text-center leading-relaxed">
+                                    Finaliza tu pedido directamente por WhatsApp con toda la información lista.
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        {/* Paso 4 */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.4 }}
+                            className="relative group"
+                        >
+                            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                {/* Número */}
+                                <div className="absolute -top-4 -left-4 w-12 h-12 bg-sakana-red rounded-full flex items-center justify-center font-black text-2xl shadow-lg border-4 border-sakana-dark">
+                                    4
+                                </div>
+
+                                {/* Icono */}
+                                <div className="w-16 h-16 bg-sakana-red/20 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                                    <span className="text-4xl">🚚</span>
+                                </div>
+
+                                {/* Contenido */}
+                                <h3 className="text-xl font-bold mb-3 text-center">Recibe en Casa</h3>
+                                <p className="text-gray-400 text-sm text-center leading-relaxed">
+                                    Tu pedido llega fresco a tu puerta en aproximadamente 30 minutos.
+                                </p>
+                            </div>
+                        </motion.div>
                     </div>
-                    <Link to="/menu" className="mt-12 inline-flex items-center gap-2 bg-sakana-red text-white font-bold text-xl px-12 py-4 rounded-full hover:scale-105 transition-transform shadow-[0_0_30px_rgba(230,57,70,0.5)]">
-                        HACER PEDIDO AHORA <ArrowRight />
-                    </Link>
+
+                    {/* CTA Final */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mt-16"
+                    >
+                        <Link
+                            to="/menu"
+                            className="inline-flex items-center gap-3 bg-sakana-red text-white font-bold text-xl px-12 py-5 rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(230,57,70,0.5)] hover:shadow-[0_0_40px_rgba(230,57,70,0.7)]"
+                        >
+                            <span>HACER PEDIDO AHORA</span>
+                            <ArrowRight className="w-6 h-6" />
+                        </Link>
+                        <p className="text-gray-400 text-sm mt-4">
+                            ⚡ Entrega rápida • 🍣 Ingredientes frescos • ⭐ Calidad garantizada
+                        </p>
+                    </motion.div>
                 </div>
             </section>
         </>
