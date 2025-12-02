@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Navigation } from 'swiper/modules';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
@@ -77,13 +78,15 @@ export default function Hero() {
                                 {slide.subtitle}
                             </motion.p>
 
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-sakana-red text-white text-lg font-bold px-10 py-4 rounded-full shadow-[0_0_20px_rgba(230,57,70,0.6)] hover:bg-red-600 transition-all"
-                            >
-                                Ordenar Ahora
-                            </motion.button>
+                            <Link to="/menu">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="bg-sakana-red text-white text-lg font-bold px-10 py-4 rounded-full shadow-[0_0_20px_rgba(230,57,70,0.6)] hover:bg-red-600 transition-all"
+                                >
+                                    Ordenar Ahora
+                                </motion.button>
+                            </Link>
                         </div>
                     </SwiperSlide>
                 ))}

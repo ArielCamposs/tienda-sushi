@@ -7,6 +7,7 @@ import About from './pages/About';
 import CartSidebar from './components/CartSidebar';
 import ScrollToTop from './components/ScrollToTop';
 import HeaderStatus from "./components/HeaderStatus";
+import PromotionsPage from "./pages/PromotionsPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/nosotros" element={<About />} />
+        <Route path="/promociones" element={<PromotionsPage />} />
       </Routes>
 
       <footer className="bg-sakana-dark text-white py-12 border-t-4 border-sakana-red text-center">

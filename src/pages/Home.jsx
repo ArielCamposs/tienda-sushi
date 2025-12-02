@@ -9,6 +9,10 @@ import Marquee from '../components/Marquee'; // Tu cinta de texto roja
 import OrderTracker from '../components/OrderTracker';
 import { useCart } from '../context/CartContext';
 
+// 🔥 NUEVO: promos del día
+import { promociones } from '../data/promotions';
+import PromoCard from '../components/PromoCard';
+
 // Librerías Externas
 import InfiniteCarousel from 'react-fast-marquee'; // <--- Renombrado para evitar conflicto
 
@@ -23,6 +27,24 @@ export default function Home() {
         { id: 104, name: "Nigiri Premium", price: 8900, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=2064", desc: "Selección del itamae del día." },
     ];
 
+    // 🔥 NUEVO: promos destacadas para "Ofertas del día"
+    const PROMOS_DESTACADAS = promociones.filter(
+        (p) => p.activo && p.destacado
+    );
+
+    // 🔥 NUEVO: cómo se agrega una promo al carrito
+    const handleAddPromoToCart = (promo) => {
+        // Respetamos la estructura que ya usas en FAVORITES: id, name, price, img, desc
+        addToCart({
+            id: `promo-${promo.id}`,
+            name: promo.titulo,
+            price: promo.precioPromo,
+            img: promo.img,
+            desc: promo.descripcion,
+            isPromo: true, // flag opcional para diferenciar en el carrito
+        });
+    };
+
     return (
         <>
             {/* 1. HERO PRINCIPAL */}
@@ -30,6 +52,81 @@ export default function Home() {
 
             {/* 2. CINTA DE TEXTO EN MOVIMIENTO */}
             <Marquee />
+
+            {/* 2.5 OFERTAS DEL DÍA (MEJORADO) */}
+            {PROMOS_DESTACADAS.length > 0 && (
+                <section className="relative bg-gradient-to-br from-sakana-beige via-orange-50 to-sakana-beige py-20 px-6 overflow-hidden">
+                    {/* Elementos decorativos de fondo */}
+                    <div className="absolute top-0 left-0 w-72 h-72 bg-sakana-red/10 rounded-full blur-3xl"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl"></div>
+
+                    {/* Patrón de fondo sutil */}
+                    <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
+
+                    <div className="container mx-auto relative z-10">
+                        {/* Header mejorado */}
+                        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="space-y-3"
+                            >
+                                {/* Badge animado */}
+                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-sakana-red/10 border border-sakana-red/20 rounded-full">
+                                    <Flame className="w-4 h-4 text-sakana-red animate-pulse" />
+                                    <span className="text-sakana-red text-xs font-bold uppercase tracking-[0.2em]">
+                                        Ofertas del día
+                                    </span>
+                                </div>
+
+                                {/* Título principal */}
+                                <h2 className="text-4xl md:text-5xl font-black text-sakana-dark leading-tight">
+                                    Promociones <span className="text-sakana-red">Especiales</span> 🍣
+                                </h2>
+
+                                {/* Descripción */}
+                                <p className="text-sm md:text-base text-gray-600 max-w-xl leading-relaxed">
+                                    Combos exclusivos con descuentos increíbles. Aprovecha estas ofertas limitadas y ahorra en tus rolls favoritos.
+                                </p>
+                            </motion.div>
+
+                            {/* Botón Ver Todas */}
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                            >
+                                <Link
+                                    to="/promociones"
+                                    className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-sakana-red text-sakana-red text-sm font-bold hover:bg-sakana-red hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                                >
+                                    Ver todas las promociones
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                            </motion.div>
+                        </div>
+
+                        {/* Grid de promociones con animación */}
+                        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            {PROMOS_DESTACADAS.map((promo, index) => (
+                                <motion.div
+                                    key={promo.id}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                >
+                                    <PromoCard
+                                        promo={promo}
+                                        onAdd={handleAddPromoToCart}
+                                    />
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* 3. SECCIÓN FAVORITOS INFINITOS (NUEVO DISEÑO DARK) */}
             <section className="relative py-24 bg-sakana-dark overflow-hidden">

@@ -38,7 +38,7 @@ const Navbar = () => {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className={`fixed top-8 left-0 right-0 z-50 transition-all duration-300 ${navbarClasses}`}
+                className={`fixed top-7 left-0 right-0 z-50 transition-all duration-300 ${navbarClasses}`}
             >
                 <div className="container mx-auto px-6 flex justify-between items-center">
 
