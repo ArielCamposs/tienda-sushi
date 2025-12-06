@@ -45,10 +45,12 @@
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+  will-change: transform;
 }
 
 .animate-scale-slow {
   animation: scale-slow 10s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 @keyframes blob {
@@ -71,6 +73,7 @@
 
 .animate-blob {
   animation: blob 7s infinite;
+  will-change: transform;
 }
 
 .animation-delay-2000 {
@@ -98,10 +101,56 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: text-shimmer 3s linear infinite;
+  will-change: background-position;
 }
 
 /* Efecto de trazo (Stroke) opcional para subtítulos */
 .text-stroke {
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
   color: transparent;
+}
+
+/* ========================================
+   OPTIMIZACIONES DE RENDIMIENTO MÓVIL
+   ======================================== */
+
+/* Respetar preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-marquee,
+  .animate-scale-slow,
+  .animate-blob,
+  .animate-text-gradient,
+  .animate-pulse,
+  .animate-ping {
+    animation: none !important;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Optimizaciones específicas para móvil */
+@media (max-width: 768px) {
+
+  /* Reducir blur en móvil para mejor rendimiento */
+  .backdrop-blur-xl,
+  .backdrop-blur-md,
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px) !important;
+  }
+
+  /* Simplificar animación blob en móvil */
+  .animate-blob {
+    animation: none;
+    opacity: 0.3;
+  }
+
+  /* Reducir blur pesado en móvil */
+  .blur-3xl {
+    filter: blur(40px) !important;
+  }
 }

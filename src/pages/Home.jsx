@@ -20,10 +20,10 @@ export default function Home() {
 
     // Datos para Favoritos
     const FAVORITES = [
-        { id: 101, name: "Volcano Roll", price: 12900, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=2070", desc: "Erupción de sabor con salsa spicy y camarón." },
-        { id: 102, name: "Tuna Tataki", price: 14500, img: "https://images.unsplash.com/photo-1617196034438-61e8c128373e?q=80&w=2070", desc: "Atún sellado con sésamo y ponzu." },
-        { id: 103, name: "Geisha Ebi", price: 9900, img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1925", desc: "Delicadeza de salmón rellena de camarón." },
-        { id: 104, name: "Nigiri Premium", price: 8900, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=2064", desc: "Selección del itamae del día." },
+        { id: 101, name: "Volcano Roll", price: 12900, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=60&w=400", desc: "Erupción de sabor con salsa spicy y camarón." },
+        { id: 102, name: "Tuna Tataki", price: 14500, img: "https://images.unsplash.com/photo-1617196034438-61e8c128373e?q=60&w=400", desc: "Atún sellado con sésamo y ponzu." },
+        { id: 103, name: "Geisha Ebi", price: 9900, img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=60&w=400", desc: "Delicadeza de salmón rellena de camarón." },
+        { id: 104, name: "Nigiri Premium", price: 8900, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=60&w=400", desc: "Selección del itamae del día." },
     ];
 
     // 🔥 NUEVO: promos destacadas para "Ofertas del día"
@@ -197,6 +197,10 @@ export default function Home() {
                                         <img
                                             src={item.img}
                                             alt={item.name}
+                                            width={350}
+                                            height={256}
+                                            loading="lazy"
+                                            decoding="async"
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-sakana-dark via-transparent to-transparent opacity-80"></div>
@@ -239,8 +243,12 @@ export default function Home() {
                     >
                         <div className="absolute -top-4 -left-4 w-24 h-24 bg-sakana-red rounded-full opacity-20 blur-2xl"></div>
                         <img
-                            src="https://images.unsplash.com/photo-1583623025817-d180a2221d0a?q=80&w=2071"
+                            src="https://images.unsplash.com/photo-1583623025817-d180a2221d0a?q=60&w=800"
                             alt="Chef"
+                            width={800}
+                            height={600}
+                            loading="lazy"
+                            decoding="async"
                             className="rounded-3xl shadow-2xl rotate-2 hover:rotate-0 transition-all duration-500"
                         />
                     </motion.div>
@@ -281,7 +289,7 @@ export default function Home() {
                             <div className="flex text-sakana-gold mb-4"><Star fill="currentColor" /><Star fill="currentColor" /><Star fill="currentColor" /><Star fill="currentColor" /><Star fill="currentColor" /></div>
                             <p className="italic text-gray-600 mb-6">"El mejor sushi que he probado en la ciudad. El arroz tiene la temperatura perfecta y la entrega fue rapidísima."</p>
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden"><img src={`https://i.pravatar.cc/150?u=${i}`} alt="User" /></div>
+                                <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden"><img src={`https://i.pravatar.cc/150?u=${i}`} alt="User" width={40} height={40} loading="lazy" /></div>
                                 <div>
                                     <span className="font-bold text-sm block text-sakana-dark">Cliente Feliz</span>
                                     <span className="text-xs text-green-600 flex items-center gap-1"><CheckCircle size={10} /> Verificado</span>

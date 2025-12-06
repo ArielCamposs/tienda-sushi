@@ -9,19 +9,19 @@ import 'swiper/css/navigation';
 const SLIDES = [
     {
         id: 1,
-        image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=2070&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=60&w=1200&auto=format&fit=crop",
         title: "Sabor Legendario",
         subtitle: "La auténtica tradición japonesa en tu paladar."
     },
     {
         id: 2,
-        image: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1925&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=60&w=1200&auto=format&fit=crop",
         title: "Frescura Absoluta",
         subtitle: "Pescado seleccionado diariamente del puerto."
     },
     {
         id: 3,
-        image: "https://images.unsplash.com/photo-1617196034438-61e8c128373e?q=80&w=2070&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1617196034438-61e8c128373e?q=60&w=1200&auto=format&fit=crop",
         title: "Arte Comestible",
         subtitle: "Cada roll es una obra maestra de nuestros itamae."
     }
@@ -45,7 +45,12 @@ export default function Hero() {
                         <img
                             src={slide.image}
                             alt={slide.title}
-                            className="w-full h-full object-cover animate-scale-slow" // Animación CSS custom (ver abajo)
+                            width={1200}
+                            height={800}
+                            fetchPriority={slide.id === 1 ? "high" : "low"}
+                            loading={slide.id === 1 ? "eager" : "lazy"}
+                            decoding="async"
+                            className="w-full h-full object-cover animate-scale-slow"
                         />
 
                         {/* Contenido Centrado */}

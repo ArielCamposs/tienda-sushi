@@ -15,6 +15,10 @@ export default function PromoCard({ promo, onAdd }) {
                 <img
                     src={img}
                     alt={titulo}
+                    width={400}
+                    height={224}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
 

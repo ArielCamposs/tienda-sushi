@@ -30,8 +30,12 @@ export default function ProductCard({ product, onAdd }) {
                     <img
                         src={product.img}
                         alt={product.name}
+                        width={176}
+                        height={176}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover rounded-full border-4 border-white shadow-sm"
-                        onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=200' }}
+                        onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=60&w=200' }}
                     />
 
                     {/* Badge de Categoría Flotante */}
