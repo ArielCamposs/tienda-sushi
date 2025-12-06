@@ -133,24 +133,74 @@
   }
 }
 
-/* Optimizaciones específicas para móvil */
+/* Optimizaciones AGRESIVAS específicas para móvil */
 @media (max-width: 768px) {
 
-  /* Reducir blur en móvil para mejor rendimiento */
+  /* Desactivar TODOS los backdrop-blur en móvil */
   .backdrop-blur-xl,
   .backdrop-blur-md,
-  .backdrop-blur-sm {
-    backdrop-filter: blur(4px) !important;
+  .backdrop-blur-sm,
+  .backdrop-blur {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 
-  /* Simplificar animación blob en móvil */
-  .animate-blob {
-    animation: none;
-    opacity: 0.3;
+  /* Desactivar animaciones pesadas en móvil */
+  .animate-blob,
+  .animate-scale-slow,
+  .animate-text-gradient {
+    animation: none !important;
   }
 
-  /* Reducir blur pesado en móvil */
+  /* Desactivar animación pulse en móvil */
+  .animate-pulse {
+    animation: none !important;
+  }
+
+  /* Reducir blur pesado a blur mínimo */
   .blur-3xl {
-    filter: blur(40px) !important;
+    filter: blur(20px) !important;
+  }
+
+  [class*="blur-\\["] {
+    filter: blur(30px) !important;
+  }
+
+  /* Simplificar sombras pesadas en móvil */
+  .shadow-2xl {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .shadow-xl {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Reducir transiciones en móvil */
+  .transition-all {
+    transition-property: opacity, transform !important;
+    transition-duration: 200ms !important;
+  }
+
+  /* Desactivar hover effects complejos en móvil */
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover,
+  .group-hover\:scale-110 {
+    transform: none !important;
+  }
+
+  .hover\:-translate-y-2:hover {
+    transform: none !important;
+  }
+
+  /* Simplificar gradientes de texto */
+  .animate-text-gradient {
+    background: linear-gradient(90deg, #E63946, #E9C46A) !important;
+    animation: none !important;
+  }
+
+  /* Ocultar elementos decorativos pesados en móvil */
+  .opacity-20.pointer-events-none .animate-blob,
+  .opacity-20.pointer-events-none .animate-pulse {
+    display: none !important;
   }
 }

@@ -55,12 +55,12 @@ export default function Home() {
             {/* 2.5 OFERTAS DEL DÍA (MEJORADO) */}
             {PROMOS_DESTACADAS.length > 0 && (
                 <section className="relative bg-gradient-to-br from-sakana-beige via-orange-50 to-sakana-beige py-20 px-6 overflow-hidden">
-                    {/* Elementos decorativos de fondo */}
-                    <div className="absolute top-0 left-0 w-72 h-72 bg-sakana-red/10 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl"></div>
+                    {/* Elementos decorativos de fondo - OCULTOS en móvil */}
+                    <div className="hidden md:block absolute top-0 left-0 w-72 h-72 bg-sakana-red/10 rounded-full blur-3xl"></div>
+                    <div className="hidden md:block absolute bottom-0 right-0 w-96 h-96 bg-orange-300/10 rounded-full blur-3xl"></div>
 
-                    {/* Patrón de fondo sutil */}
-                    <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
+                    {/* Patrón de fondo sutil - OCULTO en móvil */}
+                    <div className="hidden md:block absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
 
                     <div className="container mx-auto relative z-10">
                         {/* Header mejorado */}
@@ -130,9 +130,9 @@ export default function Home() {
             {/* 3. SECCIÓN FAVORITOS INFINITOS (NUEVO DISEÑO DARK) */}
             <section className="relative py-24 bg-sakana-dark overflow-hidden">
 
-                {/* Fondo Animado */}
-                <div className="absolute inset-0 opacity-20 pointer-events-none">
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')] opacity-30 animate-pulse"></div>
+                {/* Fondo Animado - OCULTO en móvil para rendimiento */}
+                <div className="hidden md:block absolute inset-0 opacity-20 pointer-events-none">
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')] opacity-30"></div>
                     <div className="absolute top-0 left-1/4 w-96 h-96 bg-sakana-red rounded-full blur-[150px] opacity-40 animate-blob"></div>
                     <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600 rounded-full blur-[150px] opacity-30 animate-blob animation-delay-2000"></div>
                 </div>
@@ -232,7 +232,8 @@ export default function Home() {
 
             {/* 4. SECCIÓN SOBRE NOSOTROS (RESUMEN) */}
             <section className="bg-sakana-beige py-24 relative overflow-hidden">
-                <div className="absolute top-0 right-0 opacity-5 w-1/2 h-full bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
+                {/* Patrón - OCULTO en móvil */}
+                <div className="hidden md:block absolute top-0 right-0 opacity-5 w-1/2 h-full bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
 
                 <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
                     <motion.div
@@ -241,7 +242,8 @@ export default function Home() {
                         viewport={{ once: true }}
                         className="relative"
                     >
-                        <div className="absolute -top-4 -left-4 w-24 h-24 bg-sakana-red rounded-full opacity-20 blur-2xl"></div>
+                        {/* Blur decorativo - OCULTO en móvil */}
+                        <div className="hidden md:block absolute -top-4 -left-4 w-24 h-24 bg-sakana-red rounded-full opacity-20 blur-2xl"></div>
                         <img
                             src="https://images.unsplash.com/photo-1583623025817-d180a2221d0a?q=60&w=800"
                             alt="Chef"
@@ -249,7 +251,7 @@ export default function Home() {
                             height={600}
                             loading="lazy"
                             decoding="async"
-                            className="rounded-3xl shadow-2xl rotate-2 hover:rotate-0 transition-all duration-500"
+                            className="rounded-3xl shadow-2xl md:rotate-2 md:hover:rotate-0 transition-all duration-500"
                         />
                     </motion.div>
 
@@ -302,12 +304,12 @@ export default function Home() {
 
             {/* 6. CÓMO FUNCIONA - PROCESO DE PEDIDO */}
             <section className="bg-gradient-to-br from-sakana-dark via-gray-900 to-sakana-dark text-white py-24 px-6 relative overflow-hidden">
-                {/* Decoración de fondo */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-sakana-red/10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-sakana-gold/5 rounded-full blur-3xl"></div>
+                {/* Decoración de fondo - OCULTA en móvil */}
+                <div className="hidden md:block absolute top-0 right-0 w-96 h-96 bg-sakana-red/10 rounded-full blur-3xl"></div>
+                <div className="hidden md:block absolute bottom-0 left-0 w-96 h-96 bg-sakana-gold/5 rounded-full blur-3xl"></div>
 
-                {/* Patrón de fondo */}
-                <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
+                {/* Patrón de fondo - OCULTO en móvil */}
+                <div className="hidden md:block absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/seigaiha.png')]"></div>
 
                 <div className="container mx-auto relative z-10">
                     {/* Header */}
