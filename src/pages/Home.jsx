@@ -18,12 +18,12 @@ import InfiniteCarousel from 'react-fast-marquee'; // <--- Renombrado para evita
 export default function Home() {
     const { addToCart } = useCart();
 
-    // Datos para Favoritos
+    // Datos para Favoritos - imágenes optimizadas para móvil (300px)
     const FAVORITES = [
-        { id: 101, name: "Volcano Roll", price: 12900, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=60&w=400", desc: "Erupción de sabor con salsa spicy y camarón." },
-        { id: 102, name: "Tuna Tataki", price: 14500, img: "https://images.unsplash.com/photo-1617196034438-61e8c128373e?q=60&w=400", desc: "Atún sellado con sésamo y ponzu." },
-        { id: 103, name: "Geisha Ebi", price: 9900, img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=60&w=400", desc: "Delicadeza de salmón rellena de camarón." },
-        { id: 104, name: "Nigiri Premium", price: 8900, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=60&w=400", desc: "Selección del itamae del día." },
+        { id: 101, name: "Volcano Roll", price: 12900, img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=50&w=300", desc: "Erupción de sabor con salsa spicy y camarón." },
+        { id: 102, name: "Tuna Tataki", price: 14500, img: "https://images.unsplash.com/photo-1617196034438-61e8c128373e?q=50&w=300", desc: "Atún sellado con sésamo y ponzu." },
+        { id: 103, name: "Geisha Ebi", price: 9900, img: "https://images.unsplash.com/photo-1553621042-f6e147245754?q=50&w=300", desc: "Delicadeza de salmón rellena de camarón." },
+        { id: 104, name: "Nigiri Premium", price: 8900, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=50&w=300", desc: "Selección del itamae del día." },
     ];
 
     // 🔥 NUEVO: promos destacadas para "Ofertas del día"
