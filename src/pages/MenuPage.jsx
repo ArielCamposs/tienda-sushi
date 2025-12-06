@@ -18,16 +18,17 @@ export default function MenuPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    <h1 className="text-6xl md:text-7xl font-serif font-bold mb-4 relative inline-block">
-                        <span className="bg-gradient-to-r from-sakana-dark via-sakana-red to-sakana-dark bg-clip-text text-transparent animate-text-gradient">
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-4 relative inline-block">
+                        {/* Móvil: color sólido, Desktop: gradiente animado */}
+                        <span className="text-sakana-dark md:bg-gradient-to-r md:from-sakana-dark md:via-sakana-red md:to-sakana-dark md:bg-clip-text md:text-transparent md:animate-text-gradient">
                             Nuestro Menú
                         </span>
-                        {/* Decorative underline */}
+                        {/* Decorative underline - solo desktop */}
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: "100%" }}
                             transition={{ duration: 1, delay: 0.5 }}
-                            className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-transparent via-sakana-red to-transparent"
+                            className="hidden md:block absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-transparent via-sakana-red to-transparent"
                         />
                     </h1>
                 </motion.div>
